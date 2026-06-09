@@ -34,7 +34,7 @@
 
 ### Overview
 
-**L-DSGraph** (Line-level Dual-Source Graph Neural Network) is a graph neural network-based framework for software fault localization (FL) that operates at the statement/line level. The model jointly leverages three complementary information sources to pinpoint defective code lines:
+**L-DSGraph** (Light-weight Dual-Stream Gated Graph Neural Network) is a graph neural network-based framework for software fault localization (FL) that operates at the statement/line level. The model jointly leverages three complementary information sources to pinpoint defective code lines:
 
 - **SBFL Features** (Spectrum-Based Fault Localization): Coverage matrices and aggregated ranking scores from multiple SBFL formulas (e.g., Ochiai, Zoltar).
 - **Lexical Features**: Token-level information captured via hash-based feature hashing (default) or learnable token embeddings.
@@ -517,7 +517,7 @@ For baseline model references:
 
 ### 项目概述
 
-**L-DSGraph**（Line-level Dual-Source Graph Neural Network，语句级双源图神经网络）是一个基于图神经网络的软件缺陷定位（Fault Localization, FL）框架，在语句/代码行级别进行缺陷定位。该模型联合利用三种互补信息源来精确定位有缺陷的代码行：
+**L-DSGraph**（Light-weight Dual-Stream Gated Graph Neural Network,轻量双流门控图神经网络）是一个基于图神经网络的软件缺陷定位（Fault Localization, FL）框架，在语句/代码行级别进行缺陷定位。该模型联合利用三种互补信息源来精确定位有缺陷的代码行：
 
 - **SBFL 特征**（基于频谱的缺陷定位）：覆盖矩阵及多种 SBFL 公式（如 Ochiai、Zoltar）的聚合排序分数。
 - **词法特征**：通过基于哈希的特征哈希（默认）或可学习的 Token 嵌入来捕获 Token 级别的信息。
@@ -609,9 +609,7 @@ pip install numpy scipy pandas networkx pyyaml scikit-learn openpyxl
 | `dataset/difficulty.txt` | ~50 KB | Bug 难度标签 |
 | `dataset/lengs.txt` | ~50 KB | 语句长度统计 |
 
-> **下载链接：** [夸克网盘](https://pan.quark.cn/) / [百度网盘](https://pan.baidu.com/)
->
-> *(请替换为实际的分享链接)*
+> **下载链接：** [Quark Netdisk](https://pan.quark.cn/s/3619519bae7a),[google drive](https://drive.google.com/file/d/1RcwLZThOYSKJDuYX-XVtzXuw9uZKf3yo/view?usp=sharing)
 
 下载完成后，`dataset/` 目录应包含：
 
