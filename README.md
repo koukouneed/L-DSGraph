@@ -1,4 +1,4 @@
-# L-DSGraph: Liight weight Dual-Sstream Graph Neural Network for Software Fault Localization
+# L-DSGraph: Liight weight Dual-Stream Graph Neural Network for Software Fault Localization
 
 > **L-DSGraph：面向语句级软件缺陷定位的双流图神经网络**
 
