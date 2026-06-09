@@ -1,0 +1,235 @@
+data:
+  root_data_path: "dataset/"
+  sbfl_data_path: "dataset/"
+  gramus_data_path: ""
+  difficulty_file: "dataset/difficulty.txt"
+  data_source: "pickle"
+  sbfl_type: "mergeSBFLALL"
+  use_original_coverage_matrix: true   # false时覆盖率矩阵列置零，同时置零pass_covered/fail_covered等全部cov特征
+  use_sbfl: true   # true=使用SBFL频谱矩阵（默认）, false=禁用SBFL，仅保留AST+词法特征
+  use_dense_adj: false   # false=使用稀疏边索引（默认）, true=使用稠密邻接矩阵
+  hash_num_bins: 64
+  use_full_ast: true   # true=使用完整AST(ASTtreefull.json), false=使用简化AST(ASTtree.json)
+  ast_granularity: "fine"   # AST粒度控制: "fine"=细粒度(从root_data_path加载完整AST), "statement"=语句级(从sbfl_data_path加载语句级AST)
+  stmt_length_file: "dataset/lengs.txt"
+
+training:
+  seed: 0
+  batch_size: 60
+  patience: 30
+  use_validation: true
+  save_model: true
+  model_dir: "model"
+  weight_decay: 0.001
+  loss_alpha: 0.7
+  loss_beta: 0.3
+  l1_lambda: 0.0005
+  scheduler_T0: 20
+  scheduler_T_mult: 2
+  grad_clip: 1.0
+
+experiments:
+
+  # - name: "gramus_h128_lr001"
+  #   gnn_type: "ggat"
+  #   hidden_dim: 128
+  #   stratify_by: "difficulty_adaptive"
+  #   lr: 0.001
+  #   epochs: 120
+  #   num_heads: 3
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   dropout: 0.1
+  #   alpha: 0.2
+
+  # - name: "gnn_full"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: ["concat","token_emb"]
+  #   stratify_by: "difficulty_adaptive"
+  #   hidden_dim: 128
+  #   lr: 0.001
+  #   epochs: 120
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   num_steps: 5
+  #   dropout: 0.3
+  #   ast_emb_dim: 16
+  #   token_emb_dim: 16
+
+  # - name: "l_dsgraph_h128_lr001"
+  #   gnn_type: "l_dsgraph"
+  #   stratify_by: "difficulty_adaptive"
+  #   hidden_dim: 128
+  #   lr: 0.001
+  #   epochs: 120
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   num_steps: 5
+  #   dropout: 0.3
+
+  # - name: "l_dsgraph_h128_lr003"
+  #   gnn_type: "l_dsgraph"
+  #   hidden_dim: 128
+  #   lr: 0.003
+  #   epochs: 120
+  #   num_heads: 5
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   num_steps: 4
+  #   dropout: 0.3
+
+  # - name: "gnn_full"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: ["token_emb"]
+  #   stratify_by: "difficulty_adaptive"
+  #   sbfl_type: "mergeSBFLALL"
+  #   hidden_dim: 128
+  #   use_fusion_norm: true
+  #   fusion_norm_type: "layer"
+  #   edge_gate_bias_init: -1
+  #   edge_gate_l1_lambda: 0.01
+  #   fusion_type: "balanced_gate"
+  #   edge_gate_lr_scale: 0.1
+  #   lr: 0.001
+  #   epochs: 120
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   num_steps: 5
+  #   dropout: 0.3
+  #   ast_emb_dim: 16
+  #   token_emb_dim: 16
+
+  # - name: "l_dsgraph_h128_lr001"
+  #   gnn_type: "l_dsgraph"
+  #   hidden_dim: 128
+  #   lr: 0.001
+  #   epochs: 120
+  #   num_heads: 5
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   num_steps: 4
+  #   dropout: 0.3
+
+  - name: "cnn_baseline"
+    gnn_type: "cnnfl"
+    stratify_by: "difficulty_adaptive"
+    hidden_dim: 128
+    num_layers: 3
+    kernel_size: 5
+    dropout: 0.3
+    cv_method: "kfold"
+    k_folds: 5
+
+  - name: "rnn_baseline"
+    gnn_type: "rnnfl"
+    stratify_by: "difficulty_adaptive"
+    hidden_dim: 128
+    num_layers: 2
+    bidirectional: true
+    dropout: 0.3
+    cv_method: "kfold"
+    k_folds: 5
+
+  - name: "deepfl"
+    gnn_type: "deepfl"
+    stratify_by: "difficulty_adaptive"
+    hidden_dim: 128
+    model_size_times: 2
+    dropout: 0.3
+    lr: 0.001
+    epochs: 120
+    cv_method: "kfold"
+    k_folds: 5
+
+  # - name: "depgraphc2_h128_lr0001"
+  #   gnn_type: "depgraphc2"
+  #   hidden_dim: 128
+  #   lr: 0.0001
+  #   epochs: 120
+  #   num_heads: 5
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   num_steps: 5
+  #   dropout: 0.3
+
+  # - name: "depgraphc2_h128_lr001"
+  #   gnn_type: "depgraphc2"
+  #   hidden_dim: 128
+  #   stratify_by: "difficulty_adaptive"
+  #   lr: 0.001
+  #   epochs: 120
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   num_steps: 5
+  #   dropout: 0.3
+
+
+
+  - name: "gramus_h128_lr0001"
+    gnn_type: "gramus"
+    hidden_dim: 128
+    lr: 0.001
+    epochs: 120
+    num_heads: 5
+    cv_method: "kfold"
+    k_folds: 5
+    dropout: 0.1
+    alpha: 0.2
+
+  - name: "grace_h64_lr001"
+    gnn_type: "grace"
+    hidden_dim: 128
+    stratify_by: "difficulty_adaptive"
+    lr: 0.001
+    epochs: 120
+    num_heads: 4
+    cv_method: "kfold"
+    k_folds: 5
+    num_layers: 5
+    dropout: 0.1
+
+  # - name: "grace_h64_lr001"
+  #   gnn_type: "grace_lite"
+  #   hidden_dim: 128
+  #   stratify_by: "difficulty_adaptive"
+  #   lr: 0.001
+  #   epochs: 120
+  #   num_heads: 5
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   num_layers: 5
+  #   dropout: 0.1
+
+
+  # - name: "spgramus_h60_lr001_loo"
+  #   gnn_type: "spggat"
+  #   hidden_dim: 128
+  #   stratify_by: "difficulty_adaptive"
+  #   lr: 0.001
+  #   epochs: 5
+  #   stratify_by: "difficulty_adaptive"
+  #   num_heads: 3
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   dropout: 0.1
+  #   alpha: 0.2
+
+
+  - name: "gnet4fl_h128_lr001"
+    gnn_type: gnet4fl
+    stratify_by: "difficulty_adaptive"
+    lr: 0.001
+    epochs: 120
+    hidden_dim: 128
+    dropout: 0.3
+    cv_method: "kfold"
+    k_folds: 5
+
+  - name: "depgraph_h128_lr001"
+    gnn_type: depgrapho
+    stratify_by: "difficulty_adaptive"
+    lr: 0.001
+    epochs: 120
+    hidden_dim: 128
+    cv_method: "kfold"
+    k_folds: 5

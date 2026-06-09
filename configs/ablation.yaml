@@ -1,0 +1,1012 @@
+data:
+  root_data_path: "dataset/"
+  sbfl_data_path: "dataset/"
+  gramus_data_path: ""
+  difficulty_file: "dataset/difficulty.txt"
+  data_source: "pickle"
+  sbfl_type: "mergeSBFLALL"
+  use_original_coverage_matrix: true   # false时覆盖率矩阵列置零，同时置零pass_covered/fail_covered等全部cov特征
+  use_sbfl: true   # true=使用SBFL频谱矩阵（默认）, false=禁用SBFL，仅保留AST+词法特征
+  use_dense_adj: false   # false=使用稀疏边索引（默认）, true=使用稠密邻接矩阵
+  hash_num_bins: 64
+  use_full_ast: true   # true=使用完整AST(ASTtreefull.json), false=使用简化AST(ASTtree.json)
+  ast_granularity: "fine"   # AST粒度控制: "fine"=细粒度(从root_data_path加载完整AST), "statement"=语句级(从sbfl_data_path加载语句级AST)
+  stmt_length_file: "dataset/lengs.txt"
+
+training:
+  seed: 0
+  batch_size: 60
+  patience: 30
+  use_validation: true
+  save_model: true
+  model_dir: "model"
+  weight_decay: 0.001
+  loss_alpha: 0.7
+  loss_beta: 0.3
+  # loss_schedule:
+  #   mode: "cosine"       # linear 或 cosine
+  #   alpha_start: 0.3     # 训练初期 listwise 权重（低→BCE主导，训练稳定）
+  #   alpha_end: 0.7       # 训练末期 listwise 权重（高→排序优化主导）
+  #   beta_start: 0.7      # 训练初期 BCE 权重
+  #   beta_end: 0.3        # 训练末期 BCE 权重
+  #   warmup_epochs: 5     # 前N个epoch保持start值不变
+  l1_lambda: 0.0005
+  scheduler_T0: 20
+  scheduler_T_mult: 2
+  grad_clip: 1.0
+
+experiments:
+  # - name: "ablation_full"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   hidden_dim: 128
+  #   lr: 0.001
+  #   epochs: 120
+  #   num_heads: 5
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   variant: "full"
+  #   sbfl_type: "mergeSBFLALL"
+  #   num_steps: 5
+  #   dropout: 0.3
+  #   ast_emb_dim: 16
+
+#   - name: "ablation_wo_syntax"
+#     gnn_type: "l_dsgraph_ablation"
+#     hidden_dim: 128
+#     lr: 0.001
+#     epochs: 120
+#     num_heads: 5
+#     cv_method: "kfold"
+#     k_folds: 5
+#     variant: "wo_syntax"
+#     sbfl_type: "mergeSBFLALL"
+#     num_steps: 5
+#     dropout: 0.3
+#     ast_emb_dim: 16
+
+#   - name: "ablation_wo_lexical"
+#     gnn_type: "l_dsgraph_ablation"
+#     hidden_dim: 128
+#     lr: 0.001
+#     epochs: 120
+#     num_heads: 5
+#     cv_method: "kfold"
+#     k_folds: 5
+#     variant: "wo_lexical"
+#     sbfl_type: "mergeSBFLALL"
+#     num_steps: 5
+#     dropout: 0.3
+#     ast_emb_dim: 16
+
+#   - name: "ablation_concat"
+#     gnn_type: "l_dsgraph_ablation"
+#     hidden_dim: 128
+#     lr: 0.001
+#     epochs: 120
+#     num_heads: 5
+#     cv_method: "kfold"
+#     k_folds: 5
+#     variant: "concat"
+#     sbfl_type: "mergeSBFLALL"
+#     num_steps: 5
+#     dropout: 0.3
+#     ast_emb_dim: 16
+
+#   - name: "ablation_wo_log1p"
+#     gnn_type: "l_dsgraph_ablation"
+#     hidden_dim: 128
+#     lr: 0.001
+#     epochs: 120
+#     num_heads: 5
+#     cv_method: "kfold"
+#     k_folds: 5
+#     variant: "wo_log1p"
+#     sbfl_type: "mergeSBFLALL"
+#     num_steps: 5
+#     dropout: 0.3
+#     ast_emb_dim: 16
+
+#   - name: "ablation_concat_wo_lexical_wo_log1p"
+#     gnn_type: "l_dsgraph_ablation"
+#     hidden_dim: 128
+#     lr: 0.001
+#     epochs: 120
+#     num_heads: 5
+#     cv_method: "kfold"
+#     k_folds: 5
+#     variant: ["concat", "wo_lexical", "wo_log1p"]
+#     sbfl_type: "mergeSBFL1.01"
+#     num_steps: 5
+#     dropout: 0.3
+#     ast_emb_dim: 16
+
+#   - name: "ablation_wo_syntax_wo_lexical"
+#     gnn_type: "l_dsgraph_ablation"
+#     hidden_dim: 128
+#     lr: 0.001
+#     epochs: 120
+#     num_heads: 5
+#     cv_method: "kfold"
+#     k_folds: 5
+#     variant: ["wo_syntax", "wo_lexical"]
+#     sbfl_type: "mergeSBFLALL"
+#     num_steps: 5
+#     dropout: 0.3
+#     ast_emb_dim: 16
+
+#   - name: "ablation_wo_syntax_concat"
+#     gnn_type: "l_dsgraph_ablation"
+#     hidden_dim: 128
+#     lr: 0.001
+#     epochs: 120
+#     num_heads: 5
+#     cv_method: "kfold"
+#     k_folds: 5
+#     variant: ["wo_syntax", "concat"]
+#     sbfl_type: "mergeSBFLALL"
+#     num_steps: 5
+#     dropout: 0.3
+#     ast_emb_dim: 16
+
+#   - name: "ablation_wo_lexical_wo_log1p"
+#     gnn_type: "l_dsgraph_ablation"
+#     hidden_dim: 128
+#     lr: 0.001
+#     epochs: 120
+#     num_heads: 5
+#     cv_method: "kfold"
+#     k_folds: 5
+#     variant: ["wo_lexical", "wo_log1p"]
+#     sbfl_type: "mergeSBFLALL"
+#     num_steps: 5
+#     dropout: 0.3
+#     ast_emb_dim: 16
+
+#   - name: "ablation_concat_wo_log1p"
+#     gnn_type: "l_dsgraph_ablation"
+#     hidden_dim: 128
+#     lr: 0.001
+#     epochs: 120
+#     num_heads: 5
+#     cv_method: "kfold"
+#     k_folds: 5
+#     variant: ["concat", "wo_log1p"]
+#     sbfl_type: "mergeSBFLALL"
+#     num_steps: 5
+#     dropout: 0.3
+#     ast_emb_dim: 16
+
+  # # 方式1：固定分界点
+  # - name: "stmt_count_fixed"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: "full"
+  #   stratify_by: "stmt_count"
+  #   stmt_count_boundaries: [20, 50, 100, 200, 500]
+
+  # # 方式2：自适应分5组（各组数量接近）
+  # - name: "stmt_count_adaptive"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: "full"
+  #   stratify_by: "stmt_count"
+  #   stmt_count_num_groups: 5
+
+  # # # 方式3：默认难度分层（向后兼容）
+  # - name: "difficulty_stratify"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: "full"
+  # #   # stratify_by 默认为 "difficulty"
+
+  #   # 方式2：自适应分5组（各组数量接近）
+  # - name: "stmt_count_adaptive"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: "full"
+  #   sbfl_type: "mergeSBFL1.01"
+  #   stratify_by: "stmt_count"
+  #   stmt_count_num_groups: 5
+
+  # # # 方式3：默认难度分层（向后兼容）
+  # - name: "difficulty_stratify"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   sbfl_type: "mergeSBFL1.01"
+  #   variant: "full"
+  # #   # stratify_by 默认为 "difficulty"
+
+  #   # 方式2：自适应分5组（各组数量接近）
+  # - name: "stmt_count_adaptive"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: "full"
+  #   sbfl_type: "mergeSBFL0"
+  #   stratify_by: "stmt_count"
+  #   stmt_count_num_groups: 5
+
+  # # # 方式3：默认难度分层（向后兼容）
+  # - name: "difficulty_stratify"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   sbfl_type: "mergeSBFL0"
+  #   variant: "full"
+  # #   # stratify_by 默认为 "difficulty"
+
+  # 难度自适应均分5组
+  # - name: "difficulty_adaptive"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: "full"
+  #   stratify_by: "difficulty_adaptive"
+  #   difficulty_adaptive_num_groups: 5
+
+  #     # # 方式3：默认难度分层（向后兼容）
+  # - name: "difficulty_stratify"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: "full"
+  # #   # stratify_by 默认为 "difficulty"
+
+  #   # 难度自适应均分5组
+  # - name: "difficulty_adaptive"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: "full"
+  #   sbfl_type: "mergeSBFL1.01"
+  #   stratify_by: "difficulty_adaptive"
+  #   difficulty_adaptive_num_groups: 5
+
+  #     # # 方式3：默认难度分层（向后兼容）
+  # - name: "difficulty_stratify"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   sbfl_type: "mergeSBFL1.01"
+  #   variant: "full"
+  # #   # stratify_by 默认为 "difficulty"
+
+  # # 难度自适应均分5组
+  # - name: "difficulty_adaptive"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: "full"
+  #   sbfl_type: "mergeSBFL0"
+  #   stratify_by: "difficulty_adaptive"
+  #   difficulty_adaptive_num_groups: 5
+
+  #     # # 方式3：默认难度分层（向后兼容）
+  # - name: "difficulty_stratify"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   sbfl_type: "mergeSBFL0"
+  #   variant: "full"
+  #   # stratify_by 默认为 "difficulty"
+
+  # - name: "baseline"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: "full"
+  #   use_weighted_labels: false
+  #   contrastive_weight: 0.0
+
+  # - name: "weighted_labels"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: "full"
+  #   use_weighted_labels: true
+  #   statement_root_weight: 1.0
+  #   child_node_weight: 0.5
+  #   contrastive_weight: 0.0
+
+  # - name: "contrastive"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: "full"
+  #   use_weighted_labels: false
+  #   contrastive_weight: 0.1
+  #   contrastive_temperature: 0.07
+
+  # - name: "weighted_and_contrastive"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: "full"
+  #   use_weighted_labels: true
+  #   statement_root_weight: 1.0
+  #   child_node_weight: 0.5
+  #   contrastive_weight: 0.1
+  #   contrastive_temperature: 0.07
+
+  # # === SBFL消融实验矩阵 ===
+
+  # # E0: 纯SBFL基线 - Zoltar分数直接排名
+  # - name: "E0_pure_sbfl_zoltar"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   sbfl_type: "mergeSBFLALL"
+  #   sbfl_mode: "pure_sbfl"
+  #   sbfl_formula: "zoltar"
+
+  # # E0b: 纯SBFL基线 - Ochiai分数直接排名
+  # - name: "E0_pure_sbfl_ochiai"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   sbfl_type: "mergeSBFLALL"
+  #   sbfl_mode: "pure_sbfl"
+  #   sbfl_formula: "ochiai"
+
+  # E1: GNN无SBFL - 全零向量
+  - name: "E1_gnn_zero_sbfl"
+    gnn_type: "l_dsgraph_ablation"
+    variant: ["token_emb"]
+    stratify_by: "difficulty_adaptive"
+    sbfl_type: "mergeSBFLALL"
+    sbfl_mode: "zero"
+    hidden_dim: 128
+    use_fusion_norm: true
+    fusion_norm_type: "layer"
+    edge_gate_bias_init: -1
+    edge_gate_l1_lambda: 0.01
+    fusion_type: "balanced_gate"
+    edge_gate_lr_scale: 0.1
+    lr: 0.001
+    epochs: 120
+    cv_method: "kfold"
+    k_folds: 5
+    num_steps: 5
+    dropout: 0.3
+    ast_emb_dim: 16
+    token_emb_dim: 16
+
+
+  # # E2: GNN + mergeSBFL1.01 - 高质量公式子集（当前最优配置）
+  # - name: "E2_gnn_mergeSBFL1.01"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: ["token_emb"]
+  #   stratify_by: "difficulty_adaptive"
+  #   sbfl_type: "mergeSBFL1.01"
+  #   hidden_dim: 128
+  #   use_fusion_norm: true
+  #   fusion_norm_type: "layer"
+  #   edge_gate_bias_init: -1
+  #   edge_gate_l1_lambda: 0.01
+  #   fusion_type: "balanced_gate"
+  #   edge_gate_lr_scale: 0.1
+  #   lr: 0.001
+  #   epochs: 120
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   num_steps: 5
+  #   dropout: 0.3
+  #   ast_emb_dim: 16
+  #   token_emb_dim: 16
+
+  # # E3: GNN + mergeSBFLALL - 全部公式
+  # - name: "E3_gnn_mergeSBFLALL"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: ["token_emb"]
+  #   stratify_by: "difficulty_adaptive"
+  #   sbfl_type: "mergeSBFLALL"
+  #   hidden_dim: 128
+  #   use_fusion_norm: true
+  #   fusion_norm_type: "layer"
+  #   edge_gate_bias_init: -1
+  #   edge_gate_l1_lambda: 0.01
+  #   fusion_type: "balanced_gate"
+  #   edge_gate_lr_scale: 0.1
+  #   lr: 0.001
+  #   epochs: 120
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   num_steps: 5
+  #   dropout: 0.3
+  #   ast_emb_dim: 16
+  #   token_emb_dim: 16
+
+  # # E4: GNN + mergeSBFL0 - 0%公式子集（纯噪声SBFL）
+  # - name: "E4_gnn_mergeSBFL0"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: ["token_emb"]
+  #   stratify_by: "difficulty_adaptive"
+  #   sbfl_type: "mergeSBFL0"
+  #   hidden_dim: 128
+  #   use_fusion_norm: true
+  #   fusion_norm_type: "layer"
+  #   edge_gate_bias_init: -1
+  #   edge_gate_l1_lambda: 0.01
+  #   fusion_type: "balanced_gate"
+  #   edge_gate_lr_scale: 0.1
+  #   lr: 0.001
+  #   epochs: 120
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   num_steps: 5
+  #   dropout: 0.3
+  #   ast_emb_dim: 16
+  #   token_emb_dim: 16
+
+  # # E5: GNN + 随机SBFL - 随机数替换SBFL
+  # - name: "E5_gnn_random_sbfl"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: ["token_emb"]
+  #   stratify_by: "difficulty_adaptive"
+  #   sbfl_type: "mergeSBFLALL"
+  #   sbfl_mode: "random"
+  #   hidden_dim: 128
+  #   use_fusion_norm: true
+  #   fusion_norm_type: "layer"
+  #   edge_gate_bias_init: -1
+  #   edge_gate_l1_lambda: 0.01
+  #   fusion_type: "balanced_gate"
+  #   edge_gate_lr_scale: 0.1
+  #   lr: 0.001
+  #   epochs: 120
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   num_steps: 5
+  #   dropout: 0.3
+  #   ast_emb_dim: 16
+  #   token_emb_dim: 16
+
+  # # E6: GNN + 单公式(Ochiai)
+  # - name: "E6_gnn_single_ochiai"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: ["token_emb"]
+  #   stratify_by: "difficulty_adaptive"
+  #   sbfl_type: "mergeSBFLALL"
+  #   sbfl_formula: "ochiai"
+  #   hidden_dim: 128
+  #   use_fusion_norm: true
+  #   fusion_norm_type: "layer"
+  #   edge_gate_bias_init: -1
+  #   edge_gate_l1_lambda: 0.01
+  #   fusion_type: "balanced_gate"
+  #   edge_gate_lr_scale: 0.1
+  #   lr: 0.001
+  #   epochs: 120
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   num_steps: 5
+  #   dropout: 0.3
+  #   ast_emb_dim: 16
+  #   token_emb_dim: 16
+
+  # # E7: GNN + 单公式(Zoltar)
+  # - name: "E7_gnn_single_zoltar"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: ["token_emb"]
+  #   stratify_by: "difficulty_adaptive"
+  #   sbfl_type: "mergeSBFLALL"
+  #   sbfl_formula: "zoltar"
+  #   hidden_dim: 128
+  #   use_fusion_norm: true
+  #   fusion_norm_type: "layer"
+  #   edge_gate_bias_init: -1
+  #   edge_gate_l1_lambda: 0.01
+  #   fusion_type: "balanced_gate"
+  #   edge_gate_lr_scale: 0.1
+  #   lr: 0.001
+  #   epochs: 120
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   num_steps: 5
+  #   dropout: 0.3
+  #   ast_emb_dim: 16
+  #   token_emb_dim: 16
+
+  # === 词法特征消融实验：哈希 vs Token嵌入 ===
+
+  # # L1: GNN + Token嵌入词法特征（替代哈希）
+  # - name: "L1_gnn_token_emb"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: "token_emb"
+  #   stratify_by: "difficulty_adaptive"
+  #   sbfl_type: "mergeSBFLALL"
+  #   hidden_dim: 128
+  #   lr: 0.001
+  #   epochs: 120
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   num_steps: 5
+  #   dropout: 0.3
+  #   ast_emb_dim: 64
+  #   token_emb_dim: 64
+
+  # # L2: GNN + Token嵌入词法特征 + 拼接融合
+  # - name: "L2_gnn_token_emb_concat"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: ["token_emb", "concat"]
+  #   stratify_by: "difficulty_adaptive"
+  #   sbfl_type: "mergeSBFLALL"
+  #   hidden_dim: 128
+  #   lr: 0.001
+  #   epochs: 120
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   num_steps: 5
+  #   dropout: 0.3
+  #   ast_emb_dim: 64
+  #   token_emb_dim: 64
+
+  # # L3: GNN + Token嵌入词法特征 + 无语法
+  # - name: "L3_gnn_token_emb_wo_syntax"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: ["token_emb", "wo_syntax"]
+  #   stratify_by: "difficulty_adaptive"
+  #   sbfl_type: "mergeSBFLALL"
+  #   hidden_dim: 128
+  #   lr: 0.001
+  #   epochs: 120
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   num_steps: 5
+  #   dropout: 0.3
+  #   ast_emb_dim: 64
+  #   token_emb_dim: 64
+
+
+  # - name: "gnn_full"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: ["full"]
+  #   stratify_by: "difficulty_adaptive"
+  #   sbfl_type: "mergeSBFLALL"
+  #   hidden_dim: 128
+  #   lr: 0.001
+  #   epochs: 120
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   num_steps: 5
+  #   dropout: 0.3
+  #   ast_emb_dim: 16
+  #   token_emb_dim: 16
+
+  # - name: "gnn_full"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: ["token_emb"]
+  #   stratify_by: "difficulty_adaptive"
+  #   sbfl_type: "mergeSBFLALL"
+  #   hidden_dim: 128
+  #   lr: 0.001
+  #   epochs: 120
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   num_steps: 5
+  #   dropout: 0.3
+  #   ast_emb_dim: 16
+  #   token_emb_dim: 16
+ 
+  # - name: "gnn_full"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: ["wo_lexical"]
+  #   stratify_by: "difficulty_adaptive"
+  #   sbfl_type: "mergeSBFLALL"
+  #   edge_type: pdg
+  #   hidden_dim: 128
+  #   lr: 0.001
+  #   epochs: 120
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   num_steps: 5
+  #   dropout: 0.3
+  #   ast_emb_dim: 16
+  #   token_emb_dim: 16
+
+  # - name: "gnn_full"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: ["concat"]
+  #   stratify_by: "difficulty_adaptive"
+  #   sbfl_type: "mergeSBFLALL"
+  #   edge_type: pdg
+  #   hidden_dim: 128
+  #   lr: 0.001
+  #   epochs: 120
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   num_steps: 5
+  #   dropout: 0.3
+  #   ast_emb_dim: 16
+  #   token_emb_dim: 16
+
+  # - name: "gnn_full"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: ["token_emb", "concat"]
+  #   stratify_by: "difficulty_adaptive"
+  #   sbfl_type: "mergeSBFLALL"
+  #   edge_type: pdg
+  #   hidden_dim: 128
+  #   lr: 0.001
+  #   epochs: 120
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   num_steps: 5
+  #   dropout: 0.3
+  #   ast_emb_dim: 16
+  #   token_emb_dim: 16
+
+  # - name: "gnn_full"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: ["token_emb", "concat","wo_lexical"]
+  #   stratify_by: "difficulty_adaptive"
+  #   sbfl_type: "mergeSBFLALL"
+  #   edge_type: pdg
+  #   hidden_dim: 128
+  #   lr: 0.001
+  #   epochs: 120
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   num_steps: 5
+  #   dropout: 0.3
+  #   ast_emb_dim: 16
+  #   token_emb_dim: 16
+
+  # - name: "gnn_full"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: ["concat"]
+  #   stratify_by: "difficulty_adaptive"
+  #   sbfl_type: "mergeSBFLALL"
+  #   edge_type: pdg
+  #   hidden_dim: 128
+  #   lr: 0.001
+  #   epochs: 120
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   num_steps: 5
+  #   dropout: 0.3
+  #   ast_emb_dim: 16
+  #   token_emb_dim: 16
+
+  # - name: "gnn_full"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: ["full"]
+  #   stratify_by: "difficulty_adaptive"
+  #   sbfl_type: "mergeSBFLALL"
+  #   hidden_dim: 128
+  #   lr: 0.001
+  #   epochs: 120
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   num_steps: 5
+  #   dropout: 0.3
+  #   ast_emb_dim: 16
+  #   token_emb_dim: 16
+
+  # - name: "gnn_full"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: ["token_emb"]
+  #   stratify_by: "difficulty_adaptive"
+  #   sbfl_type: "mergeSBFLALL"
+  #   hidden_dim: 128
+  #   lr: 0.001
+  #   epochs: 120
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   num_steps: 5
+  #   dropout: 0.3
+  #   ast_emb_dim: 16
+  #   token_emb_dim: 16
+
+  # - name: "gnn_full"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: ["concat","token_emb"]
+  #   stratify_by: "difficulty_adaptive"
+  #   sbfl_type: "mergeSBFLALL"
+  #   hidden_dim: 128
+  #   lr: 0.001
+  #   epochs: 120
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   num_steps: 5
+  #   dropout: 0.3
+  #   ast_emb_dim: 16
+  #   token_emb_dim: 16
+
+  # - name: "gnn_full"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: ["wo_lexical"]
+  #   stratify_by: "difficulty_adaptive"
+  #   sbfl_type: "mergeSBFLALL"
+  #   hidden_dim: 128
+  #   lr: 0.001
+  #   epochs: 120
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   num_steps: 5
+  #   dropout: 0.3
+  #   ast_emb_dim: 16
+  #   token_emb_dim: 16
+
+  # - name: "gnn_full"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: ["token_emb"]
+  #   stratify_by: "difficulty_adaptive"
+  #   sbfl_type: "mergeSBFLALL"
+  #   hidden_dim: 128
+  #   use_fusion_norm: true
+  #   fusion_norm_type: "layer"
+  #   edge_gate_bias_init: -1
+  #   edge_gate_l1_lambda: 0.01
+  #   fusion_type: "balanced_gate"
+  #   edge_gate_lr_scale: 0.1
+  #   lr: 0.001
+  #   epochs: 120
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   num_steps: 5
+  #   dropout: 0.1
+  #   ast_emb_dim: 16
+  #   token_emb_dim: 16
+
+  - name: "gnn_full"
+    gnn_type: "l_dsgraph_ablation"
+    variant: ["wo_lexical"]
+    stratify_by: "difficulty_adaptive"
+    sbfl_type: "mergeSBFLALL"
+    hidden_dim: 128
+    use_fusion_norm: true
+    fusion_norm_type: "layer"
+    edge_gate_bias_init: -1
+    edge_gate_l1_lambda: 0.01
+    fusion_type: "balanced_gate"
+    edge_gate_lr_scale: 0.1
+    lr: 0.001
+    epochs: 120
+    cv_method: "kfold"
+    k_folds: 5
+    num_steps: 5
+    dropout: 0.1
+    ast_emb_dim: 16
+    token_emb_dim: 16
+
+  - name: "gnn_full"
+    gnn_type: "l_dsgraph_ablation"
+    variant: ["wo_syntax"]
+    stratify_by: "difficulty_adaptive"
+    sbfl_type: "mergeSBFLALL"
+    hidden_dim: 128
+    use_fusion_norm: true
+    fusion_norm_type: "layer"
+    edge_gate_bias_init: -1
+    edge_gate_l1_lambda: 0.01
+    fusion_type: "balanced_gate"
+    edge_gate_lr_scale: 0.1
+    lr: 0.001
+    epochs: 120
+    cv_method: "kfold"
+    k_folds: 5
+    num_steps: 5
+    dropout: 0.1
+    ast_emb_dim: 16
+    token_emb_dim: 16
+
+  # - name: "gnn_full"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: ["token_emb"]
+  #   stratify_by: "difficulty_adaptive"
+  #   sbfl_type: "mergeSBFLALL"
+  #   hidden_dim: 128
+  #   use_fusion_norm: true
+  #   fusion_norm_type: "layer"
+  #   edge_gate_bias_init: 0
+  #   edge_gate_l1_lambda: 0.01
+  #   fusion_type: "balanced_gate"
+  #   edge_gate_lr_scale: 0.1
+  #   lr: 0.001
+  #   epochs: 120
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   num_steps: 5
+  #   dropout: 0.3
+  #   ast_emb_dim: 16
+  #   token_emb_dim: 16
+
+  # - name: "gnn_full"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: ["wo_lexical"]
+  #   stratify_by: "difficulty_adaptive"
+  #   sbfl_type: "mergeSBFLALL"
+  #   hidden_dim: 128
+  #   use_fusion_norm: true
+  #   fusion_norm_type: "layer"
+  #   edge_gate_bias_init: -1
+  #   edge_gate_l1_lambda: 0.01
+  #   fusion_type: "balanced_gate"
+  #   edge_gate_lr_scale: 0.1
+  #   lr: 0.001
+  #   epochs: 120
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   num_steps: 5
+  #   dropout: 0.3
+  #   ast_emb_dim: 16
+  #   token_emb_dim: 16
+
+  # - name: "gnn_full"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: ["concat"]
+  #   stratify_by: "difficulty_adaptive"
+  #   sbfl_type: "mergeSBFLALL"
+  #   hidden_dim: 128
+  #   use_fusion_norm: true
+  #   fusion_norm_type: "layer"
+  #   edge_gate_bias_init: 0
+  #   edge_gate_l1_lambda: 0.01
+  #   fusion_type: "balanced_gate"
+  #   edge_gate_lr_scale: 0.1
+  #   lr: 0.001
+  #   epochs: 120
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   num_steps: 5
+  #   dropout: 0.3
+  #   ast_emb_dim: 16
+  #   token_emb_dim: 16
+
+  # - name: "gnn_full"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: ["wo_syntax"]
+  #   stratify_by: "difficulty_adaptive"
+  #   sbfl_type: "mergeSBFLALL"
+  #   hidden_dim: 128
+  #   use_fusion_norm: true
+  #   fusion_norm_type: "layer"
+  #   edge_gate_bias_init: -1
+  #   edge_gate_l1_lambda: 0.01
+  #   fusion_type: "balanced_gate"
+  #   edge_gate_lr_scale: 0.1
+  #   lr: 0.001
+  #   epochs: 120
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   num_steps: 5
+  #   dropout: 0.3
+  #   ast_emb_dim: 16
+  #   token_emb_dim: 16
+
+
+  # - name: "LDS"
+  #   gnn_type: "l_dsgraph"
+  #   stratify_by: "difficulty_adaptive"
+  #   sbfl_type: "mergeSBFLALL"
+  #   hidden_dim: 128
+  #   use_fusion_norm: true
+  #   fusion_norm_type: "layer"
+  #   edge_gate_bias_init: 0
+  #   edge_gate_l1_lambda: 0.01
+  #   fusion_type: "balanced_gate"
+  #   edge_gate_lr_scale: 0.1
+  #   lr: 0.001
+  #   epochs: 120
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   num_steps: 5
+  #   dropout: 0.3
+  #   ast_emb_dim: 16
+  #   token_emb_dim: 16
+
+  # # === 阶段1：高优先级，单独验证交叉注意力 ===
+
+  # - name: "cross_attn"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: ["token_emb"]
+  #   stratify_by: "difficulty_adaptive"
+  #   sbfl_type: "mergeSBFLALL"
+  #   hidden_dim: 128
+  #   use_fusion_norm: true
+  #   fusion_norm_type: "layer"
+  #   edge_gate_bias_init: -1
+  #   edge_gate_l1_lambda: 0.01
+  #   fusion_type: "gate"
+  #   edge_gate_lr_scale: 0.1
+  #   use_cross_attn_fusion: true
+  #   cross_attn_heads: 4
+  #   lr: 0.001
+  #   epochs: 120
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   num_steps: 5
+  #   dropout: 0.3
+  #   ast_emb_dim: 16
+  #   token_emb_dim: 16
+
+  # - name: "cross_attn_balanced"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: ["token_emb"]
+  #   stratify_by: "difficulty_adaptive"
+  #   sbfl_type: "mergeSBFLALL"
+  #   hidden_dim: 128
+  #   use_fusion_norm: true
+  #   fusion_norm_type: "layer"
+  #   edge_gate_bias_init: -1
+  #   edge_gate_l1_lambda: 0.01
+  #   fusion_type: "balanced_gate"
+  #   edge_gate_lr_scale: 0.1
+  #   use_cross_attn_fusion: true
+  #   cross_attn_heads: 4
+  #   lr: 0.001
+  #   epochs: 120
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   num_steps: 5
+  #   dropout: 0.3
+  #   ast_emb_dim: 16
+  #   token_emb_dim: 16
+
+  # # === 阶段2：中优先级，叠加边类型 ===
+
+  # - name: "balanced_gate_edge"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: ["token_emb"]
+  #   stratify_by: "difficulty_adaptive"
+  #   sbfl_type: "mergeSBFLALL"
+  #   hidden_dim: 128
+  #   use_fusion_norm: true
+  #   fusion_norm_type: "layer"
+  #   edge_gate_bias_init: -1
+  #   edge_gate_l1_lambda: 0.01
+  #   fusion_type: "balanced_gate"
+  #   use_edge_type: true
+  #   edge_gate_lr_scale: 0.1
+  #   lr: 0.001
+  #   epochs: 120
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   num_steps: 5
+  #   dropout: 0.3
+  #   ast_emb_dim: 16
+  #   token_emb_dim: 16
+
+  # - name: "cross_attn_balanced_edge"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: ["token_emb"]
+  #   stratify_by: "difficulty_adaptive"
+  #   sbfl_type: "mergeSBFLALL"
+  #   hidden_dim: 128
+  #   use_fusion_norm: true
+  #   fusion_norm_type: "layer"
+  #   edge_gate_bias_init: -1
+  #   edge_gate_l1_lambda: 0.01
+  #   fusion_type: "balanced_gate"
+  #   use_edge_type: true
+  #   edge_gate_lr_scale: 0.1
+  #   use_cross_attn_fusion: true
+  #   cross_attn_heads: 4
+  #   lr: 0.001
+  #   epochs: 120
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   num_steps: 5
+  #   dropout: 0.3
+  #   ast_emb_dim: 16
+  #   token_emb_dim: 16
+
+  # # === 阶段3：低优先级，辅助排名损失 ===
+
+  # - name: "balanced_ranking"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: ["token_emb"]
+  #   stratify_by: "difficulty_adaptive"
+  #   sbfl_type: "mergeSBFLALL"
+  #   hidden_dim: 128
+  #   use_fusion_norm: true
+  #   fusion_norm_type: "layer"
+  #   edge_gate_bias_init: -1
+  #   edge_gate_l1_lambda: 0.01
+  #   fusion_type: "balanced_gate"
+  #   edge_gate_lr_scale: 0.1
+  #   ranking_weight: 0.1
+  #   ranking_margin: 0.1
+  #   lr: 0.001
+  #   epochs: 120
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   num_steps: 5
+  #   dropout: 0.3
+  #   ast_emb_dim: 16
+  #   token_emb_dim: 16
+
+  # - name: "full_combo"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   variant: ["token_emb"]
+  #   stratify_by: "difficulty_adaptive"
+  #   sbfl_type: "mergeSBFLALL"
+  #   hidden_dim: 128
+  #   use_fusion_norm: true
+  #   fusion_norm_type: "layer"
+  #   edge_gate_bias_init: -1
+  #   edge_gate_l1_lambda: 0.01
+  #   fusion_type: "balanced_gate"
+  #   use_edge_type: true
+  #   edge_gate_lr_scale: 0.1
+  #   use_cross_attn_fusion: true
+  #   cross_attn_heads: 4
+  #   ranking_weight: 0.1
+  #   ranking_margin: 0.1
+  #   lr: 0.001
+  #   epochs: 120
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   num_steps: 5
+  #   dropout: 0.3
+  #   ast_emb_dim: 16
+  #   token_emb_dim: 16
+

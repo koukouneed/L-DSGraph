@@ -1,0 +1,177 @@
+data:
+  root_data_path: "dataset/"
+  sbfl_data_path: "dataset/"
+  gramus_data_path: ""
+  difficulty_file: "dataset/difficulty.txt"
+  data_source: "pickle"
+  sbfl_type: "mergeSBFLALL"
+  hash_num_bins: 64
+  use_full_ast: true
+  ast_granularity: "fine"
+  stmt_length_file: "dataset/lengs.txt"
+
+training:
+  seed: 0
+  batch_size: 60
+  patience: 30
+  use_validation: true
+  save_model: true
+  model_dir: "model"
+  weight_decay: 0.001
+  loss_alpha: 0.7
+  loss_beta: 0.3
+  l1_lambda: 0.0005
+  scheduler_T0: 20
+  scheduler_T_mult: 2
+  grad_clip: 1.0
+
+experiments:
+  # - name: "l_dsgraph_full"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   hidden_dim: 128
+  #   lr: 0.001
+  #   epochs: 120
+  #   num_heads: 5
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   variant: "full"
+  #   sbfl_type: "mergeSBFLALL"
+  #   num_steps: 5
+  #   dropout: 0.3
+  #   ast_emb_dim: 16
+
+  # - name: "l_dsgraph_wo_syntax"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   hidden_dim: 128
+  #   lr: 0.001
+  #   epochs: 120
+  #   num_heads: 5
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   variant: "wo_syntax"
+  #   sbfl_type: "mergeSBFLALL"
+  #   num_steps: 5
+  #   dropout: 0.3
+  #   ast_emb_dim: 16
+
+  # - name: "l_dsgraph_wo_lexical"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   hidden_dim: 128
+  #   lr: 0.001
+  #   epochs: 120
+  #   num_heads: 5
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   variant: "wo_lexical"
+  #   sbfl_type: "mergeSBFLALL"
+  #   num_steps: 5
+  #   dropout: 0.3
+  #   ast_emb_dim: 16
+
+  # - name: "l_dsgraph_concat"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   hidden_dim: 128
+  #   lr: 0.001
+  #   epochs: 120
+  #   num_heads: 5
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   variant: "concat"
+  #   sbfl_type: "mergeSBFLALL"
+  #   num_steps: 5
+  #   dropout: 0.3
+  #   ast_emb_dim: 16
+
+  # - name: "l_dsgraph_wo_log1p"
+  #   gnn_type: "l_dsgraph_ablation"
+  #   hidden_dim: 128
+  #   lr: 0.001
+  #   epochs: 120
+  #   num_heads: 5
+  #   cv_method: "kfold"
+  #   k_folds: 5
+  #   variant: "wo_log1p"
+  #   sbfl_type: "mergeSBFLALL"
+  #   num_steps: 5
+  #   dropout: 0.3
+  #   ast_emb_dim: 16
+
+  - name: "l_dsgraph_balanced_gate"
+    gnn_type: "l_dsgraph_ablation"
+    hidden_dim: 128
+    lr: 0.001
+    epochs: 120
+    num_heads: 5
+    cv_method: "kfold"
+    k_folds: 5
+    variant: "full"
+    sbfl_type: "mergeSBFLALL"
+    num_steps: 5
+    dropout: 0.3
+    ast_emb_dim: 16
+    fusion_type: "balanced_gate"
+
+  - name: "l_dsgraph_balanced_gate_edge"
+    gnn_type: "l_dsgraph_ablation"
+    hidden_dim: 128
+    lr: 0.001
+    epochs: 120
+    num_heads: 5
+    cv_method: "kfold"
+    k_folds: 5
+    variant: "full"
+    sbfl_type: "mergeSBFLALL"
+    num_steps: 5
+    dropout: 0.3
+    ast_emb_dim: 16
+    fusion_type: "balanced_gate"
+    use_edge_type: true
+
+  - name: "l_dsgraph_cross_attn"
+    gnn_type: "l_dsgraph_ablation"
+    hidden_dim: 128
+    lr: 0.001
+    epochs: 120
+    num_heads: 5
+    cv_method: "kfold"
+    k_folds: 5
+    variant: "full"
+    sbfl_type: "mergeSBFLALL"
+    num_steps: 5
+    dropout: 0.3
+    ast_emb_dim: 16
+    use_cross_attn_fusion: true
+    cross_attn_heads: 4
+
+  - name: "l_dsgraph_cross_attn_balanced"
+    gnn_type: "l_dsgraph_ablation"
+    hidden_dim: 128
+    lr: 0.001
+    epochs: 120
+    num_heads: 5
+    cv_method: "kfold"
+    k_folds: 5
+    variant: "full"
+    sbfl_type: "mergeSBFLALL"
+    num_steps: 5
+    dropout: 0.3
+    ast_emb_dim: 16
+    use_cross_attn_fusion: true
+    cross_attn_heads: 4
+    fusion_type: "balanced_gate"
+
+  - name: "l_dsgraph_ranking"
+    gnn_type: "l_dsgraph_ablation"
+    hidden_dim: 128
+    lr: 0.001
+    epochs: 120
+    num_heads: 5
+    cv_method: "kfold"
+    k_folds: 5
+    variant: "full"
+    sbfl_type: "mergeSBFLALL"
+    num_steps: 5
+    dropout: 0.3
+    ast_emb_dim: 16
+    ranking_weight: 0.1
+    ranking_margin: 0.1
