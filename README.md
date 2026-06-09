@@ -1,6 +1,6 @@
-# L-DSGraph: Line-level Dual-Source Graph Neural Network for Software Fault Localization
+# L-DSGraph: Liight weight Dual-Sstream Graph Neural Network for Software Fault Localization
 
-> **L-DSGraph：面向语句级软件缺陷定位的双源图神经网络**
+> **L-DSGraph：面向语句级软件缺陷定位的双流图神经网络**
 
 [![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://www.python.org/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-red.svg)](https://pytorch.org/)
